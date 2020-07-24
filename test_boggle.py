@@ -11,7 +11,11 @@ class BoggleWordListTestCase(TestCase):
     def test_word_list(self):
         """Test that word list creation works, and check_word function works."""
 
+        # Checked in a new intance successfully made
         self.assertFalse(BoggleWordList() is False,  "Word list not created")
+        # Check if we can call check_word method on new instance
+        self.assertTrue(BoggleWordList().check_word("TEREBRATULINE"), "Word is not in list")
+        self.assertTrue(BoggleWordList().check_word("XYQHDJ"), "Word is not in list")
 
 
 class BoggleBoardTestCase(TestCase):

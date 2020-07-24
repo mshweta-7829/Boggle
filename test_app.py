@@ -4,6 +4,12 @@ from flask import session
 from app import app, boards
 from app import SESS_BOARD_UUID_KEY
 
+# Make Flask errors be real errors, not HTML pages with error info
+app.config['TESTING'] = True
+
+# This is a bit of hack, but don't use Flask DebugToolbar
+app.config['DEBUG_TB_HOSTS'] = ['dont-show-debug-toolbar']
+
 
 class BoggleAppTestCase(TestCase):
     """Test flask app of Boggle."""
@@ -19,6 +25,8 @@ class BoggleAppTestCase(TestCase):
 
         with self.client as client:
             response = client.get('/')
-            self.assertIn(SESS_BOARD_UUID_KEY, session)
+            html = response.get_data(as_text=True)
 
-            self.assertFalse("Write expectations here!")
+            self.assertIn(SESS_BOARD_UUID_KEY, session)
+            self.assertIn('<td id="row-0-col-0">', html)
+            self.assertIn('<form>', html)

@@ -12,6 +12,8 @@ word_list = BoggleWordList()
 
 # The boggle boards created, keyed by board uuid
 boards = {}
+# Example with two board in the dictionary
+# boards = {(uuid, board),(uuid2, board2)}
 
 
 @app.route("/")
@@ -31,3 +33,4 @@ def homepage():
     return render_template(
         "index.html",
         board=board)
+

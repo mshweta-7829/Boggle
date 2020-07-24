@@ -17,6 +17,9 @@ class BoggleWordList:
 
         self.words = self.read_dict(dict_path)
 
+    def __repr__(self):
+        return f" Word list in {self.words}"
+
     @staticmethod
     def read_dict(dict_path):
         """Read dictionary file at dict_path and return set of words."""
