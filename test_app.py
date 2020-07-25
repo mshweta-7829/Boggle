@@ -29,4 +29,19 @@ class BoggleAppTestCase(TestCase):
 
             self.assertIn(SESS_BOARD_UUID_KEY, session)
             self.assertIn('<td id="row-0-col-0">', html)
-            self.assertIn('<form>', html)
+            self.assertIn('<form', html)
+
+    def test_validateword(self):
+        """Make sure information is in the session and HTML is displayed"""
+
+        with self.client as client:
+            # get UUID
+            client.get('/') #mimics going to homepage
+            unique_id = session[SESS_BOARD_UUID_KEY]
+            board_instance = boards.get(unique_id)
+            board_instance[0] = ['A', 'P', 'P', 'L', 'E']
+            session[SESS_BOARD_UUID_KEY] = board_instance
+            # print(f"{board_instance}")
+            response = client.post('/api/score-word', json={"player_word": "APPLE"})
+
+            self.assertEqual(response.json["result"], "ok")
