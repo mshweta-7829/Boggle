@@ -8,7 +8,7 @@ SESS_BOARD_UUID_KEY = "board_uuid"
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "this-is-secret"
 
-word_list = BoggleWordList()
+word_list = BoggleWordList() 
 
 # The boggle boards created, keyed by board uuid
 boards = {}
@@ -24,11 +24,11 @@ def homepage():
     uuid = uuid4()
 
     board = BoggleBoard()
-    print (f"created board {board}")
+    # print (f"created board {board}")
 
     boards[uuid] = board
-    print (f"saving board{boards}")
-    print (f"one board in boardslist {boards[uuid]}")
+    # print (f"saving board{boards}")
+    # print (f"one board in boardslist {boards[uuid]}")
 
     # store the uuid for the board in the session so that later requests can
     # find it
@@ -51,11 +51,11 @@ def is_word_on_board(word):
     
 @app.route('/api/score-word', methods=['POST'])
 def validateword():
-    """ validate words :
+    """ validate the word received as a json:
         1: is word a meaningful word?
         2: is word found on board?"""
     
-    player_word = request.form.get('player_word')
+    player_word = request.json.get('player_word').upper()
    
     if is_word_in_wordlist(player_word) is False :
         return jsonify(result = "Not-word") 
